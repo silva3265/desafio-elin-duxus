@@ -30,12 +30,12 @@ public class ApiService {
 			if (data.equals(time.getData())) { 
 				List<ComposicaoTime> listaComposicaoes = time.getComposicaoTime(); 
 				for (ComposicaoTime composicao : listaComposicaoes) {
-					listaNomesIntegrantes.add(composicao.getIntegrante().getNome());
+					listaNomesIntegrantes.add(composicao.getIntegrante().getNome()); 
 				}
 			}
 		}	   
         return listaNomesIntegrantes;
-    }
+    } 
 
     /**
      * Vai retornar o integrante que tiver presente na maior quantidade de times
