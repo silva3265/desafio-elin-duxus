@@ -27,29 +27,9 @@ public class IntegranteController {
 	public ResponseEntity<IntegranteMaisUsadoDto> integranteMaisUsado(@RequestParam String dataInicial,
 			@RequestParam String dataFinal) {
 
-		String[] dataInicialSplit = dataInicial.split("-");
-		String[] dataFinalSplit = dataFinal.split("-");
+		LocalDate dataConvertidaInicial = apiService.conversaoData(dataInicial);
 
-		String diaDataInicial = dataInicialSplit[0];
-		String mesDataInicial = dataInicialSplit[1];
-		String anoDataInicial = dataInicialSplit[2];
-
-		String diaDataFinal = dataFinalSplit[0];
-		String mesDataFinal = dataFinalSplit[1];
-		String anoDataFinal = dataFinalSplit[2];
-
-		Integer diaInicialConvertido = Integer.parseInt(diaDataInicial);
-		Integer mesInicialConvertido = Integer.parseInt(mesDataInicial);
-		Integer anoInicialConvertido = Integer.parseInt(anoDataInicial);
-
-		Integer diaFinalConvertido = Integer.parseInt(diaDataFinal);
-		Integer mesFinalConvertido = Integer.parseInt(mesDataFinal);
-		Integer anoFinalConvertido = Integer.parseInt(anoDataFinal);
-
-		LocalDate dataConvertidaInicial = LocalDate.of(anoInicialConvertido, mesInicialConvertido,
-				diaInicialConvertido);
-
-		LocalDate dataConvertidaFinal = LocalDate.of(anoFinalConvertido, mesFinalConvertido, diaFinalConvertido);
+		LocalDate dataConvertidaFinal = apiService.conversaoData(dataFinal);
 
 		Integrante integranteMaisUsado = apiService.integranteMaisUsado(dataConvertidaInicial, dataConvertidaFinal,
 				timeRepository.findAll());

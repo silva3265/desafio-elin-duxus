@@ -8,8 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.duxusdesafio.dto.ListagemDosIntegrantesTimeMaisComumDto;
 import br.com.duxusdesafio.dto.ListagemIntegrantesDto;
 import br.com.duxusdesafio.repository.TimeRepository;
 import br.com.duxusdesafio.service.ApiService;
@@ -25,21 +27,30 @@ public class TimeController {
 
 	@GetMapping("/timeData/{data}")
 	public ResponseEntity<ListagemIntegrantesDto> consultaTimeDaData(@PathVariable String data) {
-		
-		// Precisamos Converter a Data do Tipo 'String' para o Tipo 'LocalDate'
-		String[] dataSplit = data.split("-");
 
-		Integer dia = Integer.parseInt(dataSplit[0]);
-		Integer mes = Integer.parseInt(dataSplit[1]);
-		Integer ano = Integer.parseInt(dataSplit[2]);
-
-		LocalDate dataConvertida = LocalDate.of(ano, mes, dia);
+		LocalDate dataConvertida = apiService.conversaoData(data);
 
 		List<String> listaDeIntegrantes = apiService.timeDaData(dataConvertida, timeRepository.findAll());
 
 		ListagemIntegrantesDto listagem = new ListagemIntegrantesDto(listaDeIntegrantes);
 		return ResponseEntity.ok(listagem);
 
+	}
+
+	@GetMapping("/timeMaisComum")
+	public ResponseEntity<ListagemDosIntegrantesTimeMaisComumDto> consultaTimeComum(@RequestParam String dataInicial,
+			@RequestParam String dataFinal) {
+		LocalDate dataConvertidaInicial = apiService.conversaoData(dataInicial);
+
+		LocalDate dataConvertidaFinal = apiService.conversaoData(dataFinal);
+
+		List<String> timeMaisComum = apiService.timeMaisComum(dataConvertidaInicial, dataConvertidaFinal,
+				timeRepository.findAll());
+
+		ListagemDosIntegrantesTimeMaisComumDto listagemMaisComum = new ListagemDosIntegrantesTimeMaisComumDto(
+				timeMaisComum);
+
+		return ResponseEntity.ok(listagemMaisComum);
 	}
 
 }
