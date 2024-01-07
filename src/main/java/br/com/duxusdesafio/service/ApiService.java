@@ -20,6 +20,17 @@ import br.com.duxusdesafio.model.Time;
  */
 @Service
 public class ApiService {
+	
+	public LocalDate conversaoData (String data) {
+		String[] dataSplit = data.split("-");
+
+		Integer dia = Integer.parseInt(dataSplit[0]);
+		Integer mes = Integer.parseInt(dataSplit[1]);
+		Integer ano = Integer.parseInt(dataSplit[2]);
+
+		LocalDate dataConvertida = LocalDate.of(ano, mes, dia);
+		return dataConvertida;
+	}
 
 	/**
 	 * Vai retornar uma lista com os nomes dos integrantes do time daquela data
@@ -76,8 +87,35 @@ public class ApiService {
 	 * do período
 	 */
 	public List<String> timeMaisComum(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes) {
-		// TODO Implementar método seguindo as instruções!
-		return null;
+		
+		LocalDate dataTime = null;
+    	Map<Time, Integer> listaContagem = new HashMap<>();
+    	
+    	for (Time timePresente : todosOsTimes) {
+    		dataTime = timePresente.getData();
+			if (dataTime.isAfter(dataInicial.minusDays(1))&& dataTime.isBefore(dataFinal.plusDays(1))) { 
+					listaContagem.put(timePresente, listaContagem.getOrDefault(timePresente, 0) + 1 ); // se existe um valor, o integrante apareceu pelo menos uma vez se aparecer ele vai somar com + 1
+					
+				}
+			}
+    	
+    	int maiorContagem = 0;
+    	Time timeMaisUsado = null;
+    	for (Map.Entry<Time, Integer> entryMap : listaContagem.entrySet()) { 
+			
+    		if (entryMap.getValue() > maiorContagem) { 
+    			maiorContagem = entryMap.getValue();
+    			timeMaisUsado = entryMap.getKey();
+			}
+		}
+    	List<String> integrantes = new ArrayList<>();
+    	List<ComposicaoTime> composicoes = timeMaisUsado.getComposicaoTime();
+    	for (ComposicaoTime composicao : composicoes) {
+			String nomeIntegrante = composicao.getIntegrante().getNome();
+			integrantes.add(nomeIntegrante);
+		}
+    	
+        return integrantes;
 	}
 
 	/**
