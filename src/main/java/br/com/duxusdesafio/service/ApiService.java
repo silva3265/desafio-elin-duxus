@@ -94,10 +94,9 @@ public class ApiService {
     	for (Time timePresente : todosOsTimes) {
     		dataTime = timePresente.getData();
 			if (dataTime.isAfter(dataInicial.minusDays(1))&& dataTime.isBefore(dataFinal.plusDays(1))) { 
-					listaContagem.put(timePresente, listaContagem.getOrDefault(timePresente, 0) + 1 ); // se existe um valor, o integrante apareceu pelo menos uma vez se aparecer ele vai somar com + 1
-					
-				}
+					listaContagem.put(timePresente, listaContagem.getOrDefault(timePresente, 0) + 1 ); // se existe um valor, o integrante apareceu pelo menos uma vez se aparecer ele vai somar com + 1	
 			}
+		}
     	
     	int maiorContagem = 0;
     	Time timeMaisUsado = null;
@@ -122,8 +121,32 @@ public class ApiService {
 	 * Vai retornar a função mais comum nos times dentro do período
 	 */
 	public String funcaoMaisComum(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes) {
-		// TODO Implementar método seguindo as instruções!
-		return null;
+		
+		LocalDate dataTime = null;
+    	Map<String, Integer> listaContagem = new HashMap<>();
+    	
+    	
+    	for (Time timePresente : todosOsTimes) {
+    		dataTime = timePresente.getData();
+			if (dataTime.isAfter(dataInicial.minusDays(1))&& dataTime.isBefore(dataFinal.plusDays(1))) { 
+				List<ComposicaoTime> composicoes = timePresente.getComposicaoTime();
+		    	for (ComposicaoTime composicao : composicoes) {
+					String funcao = composicao.getIntegrante().getFuncao();
+					listaContagem.put(funcao, listaContagem.getOrDefault(funcao, 0) + 1 ); // se existe um valor, o integrante apareceu pelo menos uma vez se aparecer ele vai somar com + 1	
+				}
+			}
+		}
+    	
+    	int maiorContagem = 0;
+    	String funcaoMaisUsada = null;
+    	for (Map.Entry<String, Integer> entryMap : listaContagem.entrySet()) { 
+			
+    		if (entryMap.getValue() > maiorContagem) { 
+    			maiorContagem = entryMap.getValue();
+    			funcaoMaisUsada = entryMap.getKey();
+			}
+		}
+		return funcaoMaisUsada;
 	}
 
 	/**
