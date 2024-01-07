@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.duxusdesafio.dto.FuncaoMaisComumDto;
 import br.com.duxusdesafio.dto.IntegranteMaisUsadoDto;
 import br.com.duxusdesafio.model.Integrante;
 import br.com.duxusdesafio.repository.TimeRepository;
@@ -36,6 +37,22 @@ public class IntegranteController {
 
 		IntegranteMaisUsadoDto integrantemaisUsadoDto = new IntegranteMaisUsadoDto(integranteMaisUsado);
 		return ResponseEntity.ok(integrantemaisUsadoDto);
+
+	}
+
+	@GetMapping("/funcaoMaisComum")
+	public ResponseEntity<FuncaoMaisComumDto> funcaoMaisComum(@RequestParam String dataInicial,
+			@RequestParam String dataFinal) {
+
+		LocalDate dataConvertidaInicial = apiService.conversaoData(dataInicial);
+
+		LocalDate dataConvertidaFinal = apiService.conversaoData(dataFinal);
+
+		String funcaoMaisComum = apiService.funcaoMaisComum(dataConvertidaInicial, dataConvertidaFinal,
+				timeRepository.findAll());
+
+		FuncaoMaisComumDto funcaoMaisComumDto = new FuncaoMaisComumDto(funcaoMaisComum);
+		return ResponseEntity.ok(funcaoMaisComumDto);
 
 	}
 }
