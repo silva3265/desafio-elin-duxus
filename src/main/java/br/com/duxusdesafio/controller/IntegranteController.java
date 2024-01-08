@@ -38,7 +38,7 @@ public class IntegranteController {
 		IntegranteMaisUsadoDto integrantemaisUsadoDto = new IntegranteMaisUsadoDto(integranteMaisUsado);
 		return ResponseEntity.ok(integrantemaisUsadoDto);
 
-	}
+	} 
 
 	@GetMapping("/funcaoMaisComum")
 	public ResponseEntity<FuncaoMaisComumDto> funcaoMaisComum(@RequestParam String dataInicial,
