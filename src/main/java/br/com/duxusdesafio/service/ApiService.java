@@ -132,7 +132,7 @@ public class ApiService {
 				List<ComposicaoTime> composicoes = timePresente.getComposicaoTime();
 		    	for (ComposicaoTime composicao : composicoes) {
 					String funcao = composicao.getIntegrante().getFuncao();
-					listaContagem.put(funcao, listaContagem.getOrDefault(funcao, 0) + 1 ); // se existe um valor, o integrante apareceu pelo menos uma vez se aparecer ele vai somar com + 1	
+					listaContagem.put(funcao, listaContagem.getOrDefault(funcao, 0) + 1 );
 				}
 			}
 		}
@@ -164,7 +164,7 @@ public class ApiService {
 				List<ComposicaoTime> composicoes = timePresente.getComposicaoTime();
 		    	for (ComposicaoTime composicao : composicoes) {
 					String franquia = composicao.getIntegrante().getFranquia();
-					listaContagem.put(franquia, listaContagem.getOrDefault(franquia, 0) + 1 ); // se existe um valor, o integrante apareceu pelo menos uma vez se aparecer ele vai somar com + 1	
+					listaContagem.put(franquia, listaContagem.getOrDefault(franquia, 0) + 1 );
 				}
 			}
 		}
@@ -185,8 +185,22 @@ public class ApiService {
 	 * Vai retornar o nome da Franquia mais comum nos times dentro do período
 	 */
 	public Map<String, Long> contagemPorFranquia(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes) {
-		// TODO Implementar método seguindo as instruções!
-		return null;
+		
+		LocalDate dataTime = null;
+    	Map<String, Long> listaContagem = new HashMap<>();
+    	
+    	
+    	for (Time timePresente : todosOsTimes) {
+    		dataTime = timePresente.getData();
+			if (dataTime.isAfter(dataInicial.minusDays(1))&& dataTime.isBefore(dataFinal.plusDays(1))) { 
+				List<ComposicaoTime> composicoes = timePresente.getComposicaoTime();
+		    	for (ComposicaoTime composicao : composicoes) {
+					String franquia = composicao.getIntegrante().getFranquia();
+					listaContagem.put(franquia, listaContagem.getOrDefault(franquia, 0L) + 1 );
+				}
+			}
+		}
+		return listaContagem;
 	}
 
 	/**

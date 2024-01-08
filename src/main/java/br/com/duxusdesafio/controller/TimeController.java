@@ -2,6 +2,7 @@ package br.com.duxusdesafio.controller;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.duxusdesafio.dto.ContagemFranquiaDto;
 import br.com.duxusdesafio.dto.FranquiaMaisFamosaDto;
 import br.com.duxusdesafio.dto.ListagemDosIntegrantesTimeMaisComumDto;
 import br.com.duxusdesafio.dto.ListagemIntegrantesDto;
@@ -67,6 +69,20 @@ public class TimeController {
 		FranquiaMaisFamosaDto franquiaMaisFamosaDto = new FranquiaMaisFamosaDto(franquiaMaisComum);
 
 		return ResponseEntity.ok(franquiaMaisFamosaDto);
+	}
+	
+	@GetMapping("/contagemFranquia")
+	public ResponseEntity<ContagemFranquiaDto> consultaContagemFranquia(@RequestParam String dataInicial,
+			@RequestParam String dataFinal) {
+		LocalDate dataConvertidaInicial = apiService.conversaoData(dataInicial);
+
+		LocalDate dataConvertidaFinal = apiService.conversaoData(dataFinal);
+
+		Map<String, Long> contagemFranquia = apiService.contagemPorFranquia(dataConvertidaInicial, dataConvertidaFinal, timeRepository.findAll());
+
+		ContagemFranquiaDto contagemFranquiaDto = new ContagemFranquiaDto(contagemFranquia);
+
+		return ResponseEntity.ok(contagemFranquiaDto);
 	}
 
 }
