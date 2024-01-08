@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.duxusdesafio.dto.FranquiaMaisFamosaDto;
 import br.com.duxusdesafio.dto.ListagemDosIntegrantesTimeMaisComumDto;
 import br.com.duxusdesafio.dto.ListagemIntegrantesDto;
 import br.com.duxusdesafio.repository.TimeRepository;
@@ -51,6 +52,21 @@ public class TimeController {
 				timeMaisComum);
 
 		return ResponseEntity.ok(listagemMaisComum);
+	}
+
+	@GetMapping("/franquiaMaisComum")
+	public ResponseEntity<FranquiaMaisFamosaDto> consultaFranquiaComum(@RequestParam String dataInicial,
+			@RequestParam String dataFinal) {
+		LocalDate dataConvertidaInicial = apiService.conversaoData(dataInicial);
+
+		LocalDate dataConvertidaFinal = apiService.conversaoData(dataFinal);
+
+		String franquiaMaisComum = apiService.franquiaMaisFamosa(dataConvertidaInicial, dataConvertidaFinal,
+				timeRepository.findAll());
+
+		FranquiaMaisFamosaDto franquiaMaisFamosaDto = new FranquiaMaisFamosaDto(franquiaMaisComum);
+
+		return ResponseEntity.ok(franquiaMaisFamosaDto);
 	}
 
 }

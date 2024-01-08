@@ -153,8 +153,32 @@ public class ApiService {
 	 * Vai retornar o nome da Franquia mais comum nos times dentro do período
 	 */
 	public String franquiaMaisFamosa(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes) {
-		// TODO Implementar método seguindo as instruções!
-		return null;
+		
+		LocalDate dataTime = null;
+    	Map<String, Integer> listaContagem = new HashMap<>();
+    	
+    	
+    	for (Time timePresente : todosOsTimes) {
+    		dataTime = timePresente.getData();
+			if (dataTime.isAfter(dataInicial.minusDays(1))&& dataTime.isBefore(dataFinal.plusDays(1))) { 
+				List<ComposicaoTime> composicoes = timePresente.getComposicaoTime();
+		    	for (ComposicaoTime composicao : composicoes) {
+					String franquia = composicao.getIntegrante().getFranquia();
+					listaContagem.put(franquia, listaContagem.getOrDefault(franquia, 0) + 1 ); // se existe um valor, o integrante apareceu pelo menos uma vez se aparecer ele vai somar com + 1	
+				}
+			}
+		}
+    	
+    	int maiorContagem = 0;
+    	String franquiaMaisFamosa = null;
+    	for (Map.Entry<String, Integer> entryMap : listaContagem.entrySet()) { 
+			
+    		if (entryMap.getValue() > maiorContagem) { 
+    			maiorContagem = entryMap.getValue();
+    			franquiaMaisFamosa = entryMap.getKey();
+			}
+		}
+		return franquiaMaisFamosa;
 	}
 
 	/**
