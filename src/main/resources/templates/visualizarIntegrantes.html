@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"> </html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro Integrante</title>
+</head>
+<body>
+    Visualizacao de Integrantes
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    id
+                </th>
+                <th>
+                    Nome
+                </th>
+                <th>
+                    Função
+                </th>
+                <th>
+                    Franquia
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="integrante : ${integrantes} " >
+                
+            <td th:text="${integrante.id}">  
+            </td>   
+            <td th:text="${integrante.nome}">
+                
+            </td>
+            <td th:text="${integrante.funcao}">
+                
+            </td> 
+            <td th:text="${integrante.franquia}">
+                
+            </td> 
+            </tr>
+        </tbody>
+    </table>
+
+
+</body>
+</html>

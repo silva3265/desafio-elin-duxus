@@ -207,8 +207,22 @@ public class ApiService {
 	 * Vai retornar o número (quantidade) de Funções dentro do período
 	 */
 	public Map<String, Long> contagemPorFuncao(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes) {
-		// TODO Implementar método seguindo as instruções!
-		return null;
+		
+		LocalDate dataTime = null;
+    	Map<String, Long> listaContagem = new HashMap<>();
+    	
+    	
+    	for (Time timePresente : todosOsTimes) {
+    		dataTime = timePresente.getData();
+			if (dataTime.isAfter(dataInicial.minusDays(1))&& dataTime.isBefore(dataFinal.plusDays(1))) { 
+				List<ComposicaoTime> composicoes = timePresente.getComposicaoTime();
+		    	for (ComposicaoTime composicao : composicoes) {
+					String funcao = composicao.getIntegrante().getFuncao();
+					listaContagem.put(funcao, listaContagem.getOrDefault(funcao, 0L) + 1 );
+				}
+			}
+		}
+		return listaContagem;
 	}
 
 }
