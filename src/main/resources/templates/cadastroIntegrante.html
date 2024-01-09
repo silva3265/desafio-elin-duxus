@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+</html>
+<html lang="pt-br">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Cadastro Integrante</title>
+</head>
+
+<body>
+	<form th:action="@{cadastro}" method="POST" th:object="${integrante}">
+	
+		<label for="nome"> Insira o Nome: </label>
+		<input th:field="*{nome}" type="text" name="nome">
+		<br><br>
+		<label for="funcao"> Insira a Função: </label>
+		<input th:field="*{funcao}" type="text" name="funcao">
+		<br><br>
+		<label for="franquia"> Insira a Franquia: </label>
+		<input th:field="*{franquia}" type="text" name="franquia">
+		<br><br>
+		<button type="submit"> Cadastrar </button>
+
+	</form>
+
+
+</body>
+
+</html>

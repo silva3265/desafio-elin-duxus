@@ -11,29 +11,34 @@ import java.util.Objects;
 @Entity
 @Table(name = "integrante")
 public class Integrante {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
+
 	@NotNull
 	@Column
 	private String franquia;
-	
+
 	@NotNull
 	@Column
 	private String nome;
-	
+
 	@NotNull
 	@Column
 	private String funcao;
-	
+
 	@OneToMany(mappedBy = "integrante")
 	@JsonIgnore
 	private List<ComposicaoTime> composicaoTime;
 
-
 	public Integrante() {
+	}
+
+	public Integrante(@NotNull String nome, @NotNull String funcao, @NotNull String franquia) {
+		this.franquia = franquia;
+		this.nome = nome;
+		this.funcao = funcao;
 	}
 
 	public Integrante(String franquia, String nome, String funcao, List<ComposicaoTime> composicaoTime) {
@@ -83,13 +88,15 @@ public class Integrante {
 		this.composicaoTime = composicaoTime;
 	}
 
-
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof Integrante)) return false;
+		if (this == o)
+			return true;
+		if (!(o instanceof Integrante))
+			return false;
 		Integrante that = (Integrante) o;
-		return id == that.id && Objects.equals(franquia, that.franquia) && Objects.equals(nome, that.nome) && Objects.equals(funcao, that.funcao);
+		return id == that.id && Objects.equals(franquia, that.franquia) && Objects.equals(nome, that.nome)
+				&& Objects.equals(funcao, that.funcao);
 	}
 
 	@Override
@@ -99,11 +106,7 @@ public class Integrante {
 
 	@Override
 	public String toString() {
-		return "Integrante{" +
-				"id=" + id +
-				", franquia='" + franquia + '\'' +
-				", nome='" + nome + '\'' +
-				", funcao='" + funcao + '\'' +
-				'}';
+		return "Integrante{" + "id=" + id + ", franquia='" + franquia + '\'' + ", nome='" + nome + '\'' + ", funcao='"
+				+ funcao + '\'' + '}';
 	}
 }
