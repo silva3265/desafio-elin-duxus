@@ -20,8 +20,34 @@ O Objetivo deste desafio é criar um Sistema Web bem parecido com o Cartola FC, 
  2. Faça uma Base de Dados MySql
  3. Crie as Tabelas Executando os Codigos Abaixo:
 
- 4. Execute o Projeto em um servidor
- 5. Acesse as rotas:
+create table time(
+
+id bigint not null primary key auto_increment,
+data date
+
+);
+
+create table integrante(
+
+id bigint not null primary key auto_increment,
+franquia varchar(100) not null,
+nome varchar(100) not null,
+funcao varchar(100) not null
+
+);
+
+create table composicao_time(
+
+id bigint not null primary key auto_increment,
+time_id bigint not null,
+integrante_id bigint not null,
+constraint fk_time_composicao_time foreign key (time_id) references time(id),
+constraint fk_integrante_composicao_time foreign key (integrante_id) references integrante(id)
+
+);
+
+ 5. Execute o Projeto em um servidor
+ 6. Acesse as rotas:
     Exemplo de Data: 14-01-2023
     Exemplo de Data Inicial e Data Final: 01-01-2021 e 20-01-2021
     
